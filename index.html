@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>MovieScript</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <form id="search-for-movies" >
+            <h3>Search for a movie!</h3>
+            <input id='input-title' type='test' name='title' value="" placeholder="Favorite movie?" class="input-text">
+            <br>
+            <input id='search-button' type='submit' value='Search' class="submit">
+        </form>
+        
+        <div id="search-results-container">
+        </div>
+        <form id="add-movie-manual" >
+            <h3>Add Your Favorite Movie:</h3>
+
+            <input id='input-title' type="text" name="title" value="" placeholder="Enter the title of this movie:" class="input-text">
+            <br><br>
+            <input id='input-starring' type="text" name="starring" value="" placeholder="Enter the star of this movie:" class="input-text">
+            <br><br>
+            <input id='input-description' type="text" name="description" value="" placeholder="Enter a short description of the plot:" class="input-text">
+            <br><br>
+            <input id='input-url' type="text" name="url" value="" placeholder="Enter a URL for more info on this movie:" class="input-text">
+            <br><br>
+            <textarea id='input-notes' name="description" rows="8" cols="80" value="" placeholder="Why do you like this movie?"></textarea>
+            <br><br>
+
+
+            <input id='add-movie-button' type='submit' value='ADD' class="submit">
+        </form>
+        
+        <div id="list-container">
+
+        </div>
+        
+        <script type="text/javascript" src="index.js"></script>
+    </body>
+</html>
