@@ -4,15 +4,26 @@ const movieAPIRef = ""
 const searchForm = document.querySelector('#search-for-movies')
 const addForm = document.querySelector('#add-movie-manual')
 const listContainer = document.querySelector('#list-container')
+const showAddFormButton = document.querySelector('#show-add-form')
 
 document.addEventListener("DOMContentLoaded", () => {
     getLists();
-    searchForm.style.display = "none";
+    searchForm.style.display = "none"
+    hideAddForm();
+    showAddFormButton.addEventListener("click", showAddForm)
     // let searchForMoviesForm = document.querySelector('#search-for-movies')
     // searchForMoviesForm.addEventListener('submit', (e) => loadSearchResults(e))
     addForm.addEventListener('submit', (e) => createMovieHandler(e))
     //addListDropdownToForm(renderedLists)
 } )
+function showAddForm() {
+    addForm.style.display = "block"
+    showAddFormButton.style.display = "none"
+}
+function hideAddForm() {
+    addForm.style.display= "none"
+    showAddFormButton.style.display = "block"
+}
 
 function addListDropdownToForm(lists) {
     let addMovieForm = document.querySelector("#add-movie-manual")
@@ -145,6 +156,7 @@ function postMovie(title, starring, url, description, notes, list_id) {
             document.querySelector('#list-container').innerHTML += movieMarkup;
             getLists();
             addForm.reset();
+            hideAddForm();
     })
 }
 
