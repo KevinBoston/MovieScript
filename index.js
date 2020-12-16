@@ -1,18 +1,34 @@
-const apiRef = "http://localhost:3000/api/lists"
+const apiListRef = "http://localhost:3000/api/lists"
+const apiMovieRef = "http://localhost:3000/api/movies"
 const movieAPIRef = ""
 const searchForm = document.querySelector('#search-for-movies')
-const addButton = document.querySelector('#add-movie-button')
+const addForm = document.querySelector('#add-movie-manual')
+const listContainer = document.querySelector('#list-container')
 
 document.addEventListener("DOMContentLoaded", () => {
-    getLists()
+    getLists();
     searchForm.style.display = "none";
     // let searchForMoviesForm = document.querySelector('#search-for-movies')
     // searchForMoviesForm.addEventListener('submit', (e) => loadSearchResults(e))
-    addButton.addEventListener('submit', (e) => createMovieHandler(e))
+    addForm.addEventListener('submit', (e) => createMovieHandler(e))
+    //addListDropdownToForm(renderedLists)
 } )
 
+function addListDropdownToForm(lists) {
+    let addMovieForm = document.querySelector("#add-movie-manual")
+    let selectMenu = document.createElement("select")
+    selectMenu.id = "input-list"
+
+    addMovieForm.insertBefore(selectMenu, document.querySelector('#add-movie-button'))
+
+}
+function clearListContainer() {
+    listContainer.innerHTML = ""
+}
+
 function getLists() {
-    fetch(apiRef)
+    clearListContainer();
+    let listData = fetch(apiListRef)
     .then(res => res.json())
     .then(lists => {
         lists.data.forEach(list => {
@@ -20,25 +36,31 @@ function getLists() {
             appendMovie(markedUpList);
             addMoviesToList(list)
         })
-
+      
+        return lists
     })
+ 
+    return listData
 }
 
 function renderList(list) {
-    console.log("Render list!")
-    console.log(list.attributes)
-    
-    const listsContainer = `
-        <div list-id=${list.id}>
-        <p style="color:${list.attributes.color};">${list.attributes.name}</p>
-    `
+    let listsContainer = document.createElement("div")
+    listsContainer.data_id = list.id
+    let listName = document.createElement("p")
+    listName.style.color = list.attributes.color
+    listName.innerText = list.attributes.name 
+    listsContainer.appendChild(listName)
+    let newDeleteListButton = document.createElement("button")
+    newDeleteListButton.id = list.id
+    newDeleteListButton.innerHTML = "Delete list?"
+    listsContainer.appendChild(newDeleteListButton)
+    newDeleteListButton.addEventListener("click", (e) => deleteList(e))
     return listsContainer
 
 }
 function appendMovie(listMarkup) {
-    document.querySelector('#list-container').innerHTML += listMarkup;
+    listContainer.appendChild(listMarkup);
 }
-
 
 function addMoviesToList(list) {
     let movies = list.attributes.movies
@@ -66,8 +88,9 @@ function makeMovieContainer(movie) {
     const movieContainer = `
         <div movie-id=${movie.id}>
         <p>${movie.title}</p>
+        <p>Starring: ${movie.starring}</p>
     `
-    console.log(movieContainer)
+    //console.log(movieContainer)
     return movieContainer
 }
 
@@ -89,18 +112,21 @@ function makeMovieContainer(movie) {
 
 function createMovieHandler(e) {
     e.preventDefault();
-    console.log("added!")
-    const titleInput = document.querySelector('#title-input')
-    const starringInput = document.querySelector('#starring-input')
-    const urlInput = document.querySelector('#url-input')
-    const descriptionInput = document.querySelector('#description-input')
-    const notesInput = document.querySelector('#notes-input')
-    postMovie(titleInput, starringInput, urlInput, descriptionInput, notesInput)
+    console.log("Add button pressed")
+    const titleInput = e.target.children[1].value
+    const starringInput = document.querySelector('#input-starring').value
+    const urlInput = document.querySelector('#input-url').value
+    const descriptionInput = document.querySelector('#input-description').value
+    const notesInput = document.querySelector('#input-notes').value
+    const listIDInput = parseInt(document.querySelector('#input-selection-manual').value)
+    postMovie(titleInput, starringInput, urlInput, descriptionInput, notesInput, listIDInput)
+
 }
 
-function postMovie(title, starring, url, description, notes) {
-    let bodyData = {title, starring, url, description, notes }
-    fetch(apiRef, {
+function postMovie(title, starring, url, description, notes, list_id) {
+    let bodyData = {title, starring, url, description, notes, list_id}
+    console.log(bodyData)
+    fetch(apiMovieRef, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(bodyData)
@@ -114,8 +140,20 @@ function postMovie(title, starring, url, description, notes) {
             <p>Starring: ${movie.starring}</p>
             
             
-            
+        </div>
             `;
             document.querySelector('#list-container').innerHTML += movieMarkup;
+            getLists();
+            addForm.reset();
     })
 }
+
+function deleteList(e) {
+    let deleteListId = e.path[0].id
+
+    fetch(`${apiListRef}/${deleteListId}`, {
+        method: "DELETE",
+    } )
+    getLists();    
+}
+
