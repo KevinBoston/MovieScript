@@ -43,66 +43,79 @@ function getLists() {
     .then(res => res.json())
     .then(lists => {
         lists.data.forEach(list => {
-            let markedUpList = renderList(list)
-            appendMovie(markedUpList);
+             renderList(list)
+            //appendList(markedUpList);
             addMoviesToList(list)
         })
       
         return lists
     })
+    //.catch(error => (console.log(error)))
  
     return listData
 }
 
-function renderList(list) {
-    let listsContainer = document.createElement("div")
-    listsContainer.data_id = list.id
-    let listName = document.createElement("p")
-    listName.style.color = list.attributes.color
-    listName.innerText = list.attributes.name 
-    listsContainer.appendChild(listName)
-    let newDeleteListButton = document.createElement("button")
-    newDeleteListButton.id = list.id
-    newDeleteListButton.innerHTML = "Delete list?"
-    listsContainer.appendChild(newDeleteListButton)
-    newDeleteListButton.addEventListener("click", (e) => deleteList(e))
-    return listsContainer
+function renderList(list) {    
+    let newList = new List(list)
+    newList.renderListCard()
+}
+    //let listsContainer = document.createElement("div")
+    //listsContainer.id = list.id
+    //let listName = document.createElement("p")
+    //listName.style.color = list.attributes.color
+    //listName.innerText = list.attributes.name 
+    //listsContainer.appendChild(listName)
+    //let newDeleteListButton = document.createElement("button")
+    //newDeleteListButton.id = list.id
+    //newDeleteListButton.innerHTML = "Delete list?"
+    //listsContainer.appendChild(newDeleteListButton)
+    //newDeleteListButton.addEventListener("click", (e) => deleteList(e))
+    //return listsContainer
 
-}
-function appendMovie(listMarkup) {
-    listContainer.appendChild(listMarkup);
-}
+
+//function appendList(listMarkup) {
+    //listContainer.appendChild(listMarkup);
+//}
 
 function addMoviesToList(list) {
     let movies = list.attributes.movies
-    let listID = list.id
-    const movieContainers = []
+    console.log(movies)
+    //let listID = list.id - 1
+    
+    //const movieListContainer = document.querySelector('#list-container').children[listID]
+    //debugger
     movies.forEach(movie => { 
-        movieContainers.push(makeMovieContainer(movie));
-    })
-    
-    movieContainers.forEach(container => {
-        //console.log(container)
-        
-        let newMovieNode = document.createElement("div");
-        newMovieNode.id = listID
-        newMovieNode.innerHTML = container
+        let newMovie = new Movie(movie)
+        let newCard = newMovie.renderCard()
         //debugger
-        let list_cont = document.querySelector(`#list-container`)
-        list_cont.appendChild(newMovieNode);
+        listContainer.appendChild(newCard)
+        console.log(newCard)
+        let deleteMovieButton = newCard.children[4]
+        deleteMovieButton.addEventListener('click', (e) => deleteMovie(e))
+        //console.log("Listening to delete the movie")
+        //debugger
     })
+    console.log(listContainer)
+    //debugger
+    //movieListContainer.forEach(movie => {
+        
+        
+     //   debugger
+   // })
 
-
-}
-function makeMovieContainer(movie) {
     
-    const movieContainer = `
-        <div movie-id=${movie.id}>
-        <p>${movie.title}</p>
-        <p>Starring: ${movie.starring}</p>
-    `
-    //console.log(movieContainer)
-    return movieContainer
+    //movieContainers.forEach(container => {
+       // console.log(container)
+        //debugger
+        //let newMovieNode = document.createElement("div");
+        //newMovieNode.id = listID
+        //newMovieNode.innerHTML = container
+        //debugger
+        //let list_cont = document.querySelector(`#list-container`)
+        //list_cont.appendChild(newMovieNode);
+   // })
+
+
 }
 
 // function loadSearchResults(e) {
@@ -169,3 +182,13 @@ function deleteList(e) {
     getLists();    
 }
 
+function deleteMovie(e) {
+    
+    let deleteMovieID = e.path[0].id
+    console.log(`deleting movie ID ${deleteMovieID}`)
+    debugger
+    fetch(`${apiMovieRef}/${deleteMovieID}`, {
+        method: "DELETE",
+    } )
+    getLists();    
+}

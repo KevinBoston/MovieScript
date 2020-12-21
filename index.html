@@ -10,9 +10,10 @@
         <title>MovieScript</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
+        <header><h2>Welcome to MovieScript!</h2></header>
         <form id="search-for-movies" >
             <h3>Search for a movie!</h3>
             <input id='input-title' type='test' name='title' value="" placeholder="Favorite movie?" class="input-text">
@@ -47,11 +48,13 @@
             <br><input id='add-movie-button' type='submit' value='ADD' class="submit">
         </form>
         <button id="show-add-form">Add a movie?</button>
-        
-        <div id="list-container">
+        <main>
+            <div id="list-container">
 
-        </div>
-        
-        <script type="text/javascript" src="index.js"></script>
+            </div>
+        </main>
+        <script type="text/javascript" src="src/index.js"></script>
+        <script type="text/javascript" src="src/movie.js"></script>
+        <script type="text/javascript" src="src/list.js"></script>
     </body>
 </html>
