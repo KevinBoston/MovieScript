@@ -45,6 +45,7 @@ function hideAddListForm() {
 }
 
 function addListDropdownToForm() {
+    document.querySelectorAll("#input-list").forEach(tag => {tag.remove()})
     let lists = List.all
     let selectMenu = document.createElement("select")
     selectMenu.id ="input-list"
@@ -55,6 +56,8 @@ function addListDropdownToForm() {
         selectMenu.appendChild(newSelectOption)
     })
     addMovieForm.insertBefore(selectMenu, document.querySelector('#add-movie-button'))
+
+    debugger
 }
 function clearListContainer() {
     listContainer.innerHTML = ""

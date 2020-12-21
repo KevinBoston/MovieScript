@@ -14,7 +14,10 @@ class Movie {
         let card = document.createElement('div')
         card.dataset.id = this.id
         card.className = "card"
-        let title = document.createElement('p')
+        let title = document.createElement('a')
+        if (this.url === "none" || this.url === null) {
+            
+        }
         title.innerText = this.title
         card.appendChild(title)
         let starring = document.createElement('ul')

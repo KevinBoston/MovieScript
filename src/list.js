@@ -16,7 +16,7 @@ class List {
         let newDeleteListButton = document.createElement("button")
         newDeleteListButton.id = this.id
         newDeleteListButton.innerHTML = "Delete list?"
-        //newHeader.appendChild(newDeleteListButton)
+        newHeader.appendChild(newDeleteListButton)
         document.querySelector("#list-container").appendChild(newHeader) 
         newDeleteListButton.addEventListener("click", (e) => deleteList(e))
         return newHeader 
