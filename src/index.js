@@ -57,7 +57,6 @@ function addListDropdownToForm() {
     })
     addMovieForm.insertBefore(selectMenu, document.querySelector('#add-movie-button'))
 
-    debugger
 }
 function clearListContainer() {
     listContainer.innerHTML = ""
