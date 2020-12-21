@@ -23,6 +23,15 @@
         
         <div id="search-results-container">
         </div>
+        <form id="add-list-manual">
+            <h3>Create a new List:</h3>
+
+            <input id='input-name' type="text" name="name" placeholder="Enter the name of this list:" class="input-text">
+            <br><br>
+            <input id='input-color' type="text" name="color" placeholder="Enter a color for this list:" class="input-text">
+            <br><br>
+            <br><input id='add-list-button' type='submit' value='Create' class="submit">
+        </form> <button id='add-list-hide-button'>Hide form</button>
         <form id="add-movie-manual">
             <h3>Add Your Favorite Movie:</h3>
 
@@ -32,22 +41,17 @@
             <br><br>
             <input id='input-description' type="text" name="description" value="" placeholder="Enter a short description of the plot:" class="input-text">
             <br><br>
-            <input id='input-url' type="text" name="url" value="" placeholder="Enter a URL for more info on this movie:" class="input-text">
-            <br><br>
-            <p>Select which list:</p>
-            <select id='input-selection-manual' name='lists'>
-                <option value="1">MCU</option>
-                <option value="2">DC Expanded Universe</option>
-                <option value="3">Other</option>
-            </select>
+            <input id='input-url' type="text" name="url" value="" placeholder="Enter a URL for more info on this movie:" class="input-text" >
             <br><br>
             <textarea id='input-notes' name="description" rows="8" cols="80" value="" placeholder="Why do you like this movie?"></textarea>
             <br><br>
 
 
             <br><input id='add-movie-button' type='submit' value='ADD' class="submit">
-        </form>
-        <button id="show-add-form">Add a movie?</button>
+            
+        </form> <button id='add-movie-hide-button'>Hide form</button>
+        <button id="show-add-movie-form">Add a movie?</button>
+        <button id="show-add-list-form">Add a list?</button>
         <main>
             <div id="list-container">
 
