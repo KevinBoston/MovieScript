@@ -4,7 +4,7 @@ class Movie {
         this.title = movieAttributes.title
         this.starring = movieAttributes.starring
         this.description = movieAttributes.description
-        this.url = movieAttributes.url
+        // this.url = movieAttributes.url
         this.notes = movieAttributes.notes
         this.list_id = movieAttributes.list_id
         Movie.all.push(this)

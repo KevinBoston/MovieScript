@@ -46,7 +46,11 @@ function hideAddListForm() {
 
 function addListDropdownToForm() {
     document.querySelectorAll("#input-list").forEach(tag => {tag.remove()})
-    let lists = List.all
+    //const allLists = List.all
+    const lists = List.all
+    // [...new Set(allLists)]
+    console.log(lists)
+    //debugger
     let selectMenu = document.createElement("select")
     selectMenu.id ="input-list"
     lists.forEach(list => {
@@ -64,22 +68,25 @@ function clearListContainer() {
 
 function getLists() {
     clearListContainer();
-    let listData = fetch(apiListRef)
+    fetch(apiListRef)
     .then(res => res.json())
     .then(lists => {
-        lists.data.forEach(list => {
-             renderList(list)
-             addMoviesToList(list)
-        })
-      
+        createLists(lists)
         return lists
     })
- 
-    return listData
+}
+function createLists(lists) {
+    List.all = []
+    lists.data.forEach(list => {
+        renderList(list)
+        addMoviesToList(list)
+    })
 }
 
 function renderList(list) {    
     let newList = new List(list)
+    //newList.addToAll()
+    //debugger
     newList.renderListCard()
 }
 
@@ -102,11 +109,11 @@ function createMovieHandler(e) {
     e.preventDefault();
     const titleInput = e.target.children[1].value
     const starringInput = document.querySelector('#input-starring').value
-    const urlInput = document.querySelector('#input-url').value
+    // const urlInput = document.querySelector('#input-url').value
     const descriptionInput = document.querySelector('#input-description').value
     const notesInput = document.querySelector('#input-notes').value
     const listIDInput = parseInt(document.querySelector('#input-list').value)
-    postMovie(titleInput, starringInput, urlInput, descriptionInput, notesInput, listIDInput)
+    postMovie(titleInput, starringInput, descriptionInput, notesInput, listIDInput)
 
 }
 function createListHandler(e) {
@@ -131,8 +138,8 @@ function postList(name, color) {
 }
 
 
-function postMovie(title, starring, url, description, notes, list_id) {
-    let bodyData = {title, starring, url, description, notes, list_id}
+function postMovie(title, starring, description, notes, list_id) {
+    let bodyData = {title, starring, description, notes, list_id}
     fetch(apiMovieRef, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -148,11 +155,13 @@ function postMovie(title, starring, url, description, notes, list_id) {
 
 function deleteList(e) {
     let deleteListId = e.path[0].id
-
+   
     fetch(`${apiListRef}/${deleteListId}`, {
         method: "DELETE",
     } )
-    getLists();    
+    .then(res => {
+        getLists();
+    })    
 }
 
 function deleteMovie(e) {
@@ -161,5 +170,7 @@ function deleteMovie(e) {
     fetch(`${apiMovieRef}/${deleteMovieID}`, {
         method: "DELETE",
     } )
-    getLists();    
+    .then(res => {
+        getLists();
+    })    
 }
