@@ -46,11 +46,7 @@ function hideAddListForm() {
 
 function addListDropdownToForm() {
     document.querySelectorAll("#input-list").forEach(tag => {tag.remove()})
-    //const allLists = List.all
     const lists = List.all
-    // [...new Set(allLists)]
-    console.log(lists)
-    //debugger
     let selectMenu = document.createElement("select")
     selectMenu.id ="input-list"
     lists.forEach(list => {
@@ -85,8 +81,6 @@ function createLists(lists) {
 
 function renderList(list) {    
     let newList = new List(list)
-    //newList.addToAll()
-    //debugger
     newList.renderListCard()
 }
 
@@ -109,7 +103,6 @@ function createMovieHandler(e) {
     e.preventDefault();
     const titleInput = e.target.children[1].value
     const starringInput = document.querySelector('#input-starring').value
-    // const urlInput = document.querySelector('#input-url').value
     const descriptionInput = document.querySelector('#input-description').value
     const notesInput = document.querySelector('#input-notes').value
     const listIDInput = parseInt(document.querySelector('#input-list').value)
