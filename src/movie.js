@@ -13,6 +13,7 @@ class Movie {
     renderCard() {
         let card = document.createElement('div')
         card.dataset.id = this.id
+        card.dataset.list_id = this.list_id
         card.className = "card"
         let title = document.createElement('a')
        //if (this.url === "none" || this.url === null) {

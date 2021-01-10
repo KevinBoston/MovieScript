@@ -74,11 +74,13 @@ function getLists() {
 function createLists(lists) {
     List.all = []
     lists.data.forEach(list => {
-        renderList(list)
-        addMoviesToList(list)
+        renderListAndMovies(list)
     })
 }
-
+function renderListAndMovies(list) {
+    renderList(list)
+    addMoviesToList(list)
+}
 function renderList(list) {    
     let newList = new List(list)
     newList.renderListCard()
@@ -126,7 +128,7 @@ function postList(name, color) {
     .then(list => {
         getLists();
         addListForm.reset();
-        hideAddMovieForm();
+        hideAddListForm();
     })
 }
 
@@ -152,8 +154,11 @@ function deleteList(e) {
     fetch(`${apiListRef}/${deleteListId}`, {
         method: "DELETE",
     } )
-    .then(res => {
-        getLists();
+    .then(res => res.json())
+    .then(lists => {
+        clearListContainer();
+        createLists(lists);
+        //getLists();
     })    
 }
 
@@ -164,6 +169,28 @@ function deleteMovie(e) {
         method: "DELETE",
     } )
     .then(res => {
-        getLists();
+        findAndRemoveDeletedCard(deleteMovieID)
     })    
 }
+
+function findAndRemoveDeletedCard(movieId) {
+    let allCards = listContainer.querySelectorAll('div.card')
+    allCards.forEach(card => {
+        if (card.dataset.id == movieId) {
+            card.remove()
+            return
+        }
+    })
+}
+
+// function reloadListAndMovies(list) {
+//     let listID = list.id
+//     let allHeaders = listContainer.querySelectorAll('header')
+    
+//     allHeaders.forEach(header => {
+//         if (header.id == listID) {
+//             header.remove();
+//         }
+//     })
+//     renderListAndMovies(list);
+// }
